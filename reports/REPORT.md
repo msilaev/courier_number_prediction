@@ -1,3 +1,9 @@
+---
+title:  Wolt Test Assignment Report"
+author: "Mikhail Silaev"
+date: "2025-01-21"
+---
+
 # Wolt Test Assignment Report
 
 This repository contains the code for preparing training, test datases, training and evaluating a Long-Short Term Memory (LSTM) Recurrent Neural Network (RNN) LSTM and baseline Linear Regression models for predicting courier partners online.
@@ -45,8 +51,6 @@ $$
 y_{i+1:i+n_{step}} = f(x_{1:i}),
 $$
 where: $ y_{i+1:i+n_{step}} = \{y_{i+1}, y_{i+2}, ..., y_{i+n_{step}}\} $ are the predicted values for the next $n_{step} $ days,  $ x_{1:i} $ represents the features up to day $ i $, $ f $ is the predictive model.
-
----
 
 # 4 Feature Selection
 
@@ -102,12 +106,12 @@ graph TD
 
 Mean Absolute Error (MAE)
 $$
-    \text{MAE} = \frac{1}{n} \sum_{i=1}^{n} \left| y_i - \hat{y}_i \right|
+    {\text{MAE}} = \frac{1}{n} \sum_{i=1}^{n} \left| y_i - \hat{y}_i \right|
 $$
 
 Root Mean Squared Error (RMSE)
 $$
-    \text{RMSE} = \sqrt{
+    {\text{RMSE}} = \sqrt{
         \frac{1}{n} \sum_{i=1}^{n} \left( y_i - \hat{y}_i \right)^2
         }
 $$
@@ -115,7 +119,7 @@ $$
 Signal-to-Noise Ratio (SNR)
 
 $$
- \text{SNR (dB)} = 10 \log_{10}
+ {\text{SNR (dB)}} = 10 \log_{10}
  \left(
     \frac{
           \sum_{i=1}^{n} \hat{y}_i^2
@@ -130,11 +134,11 @@ The R² (R-squared) score, also known as the coefficient of determination
 $$
 R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
 $$
-
 Here
--$ y_i $ and  $ \hat{y}_i $ The actual value of courier numbers on the (i)-th day.
-- $ \hat{y}_i $: The predicted value at the (i)-th position.
+- $y_i$ is the actual number of couries.
+- $y_i$ is the actual number of couries on the (i)-th day.
 - $ n $: The total number of observations.
+
 These equations provide a mathematical representation of the error metrics used to evaluate the performance of regression models.
 
 ---
@@ -146,6 +150,8 @@ The learning curve with training and validation losses are shown in the figure b
 From that we see that overfitting starts approximately from 30 Epoch.
 Thus for training LSTM models we choose 30-40 Eposchs.
 ![Learning curve](figures/FeatureImportanceMultipleDays.png "Figure 1: Learning curve")
+
+---
 
 # 8 Results
 
