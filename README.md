@@ -81,7 +81,12 @@ The following diagram illustrates the structure of the project corresponding to 
 
     ```bash
     git clone https://github.com/yourusername/wolt_test_assignment_2025.git
-    cd wolt_test_assignment
+    cd wolt_test_assignment_2025
+    ```
+
+    or unpack `wotl_test_assignment_2025.zip` into folder  `\wotl_test_assignment_2025 `
+    ```bash
+    cd wolt_test_assignment_2025
     ```
 
 2. Create a virtual environment:
