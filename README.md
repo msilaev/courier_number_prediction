@@ -172,12 +172,17 @@ Pre-commit hooks automatically run linters before each commit to ensure code qua
 
     1. Put .pre-commit-config.yaml file to the root directory of the project
 
-    2. Run the following command to install the pre-commit hooks:
+    2. If not already, initialize git repo
+        
+        ``` bash
+        git init
+        ```
+    3. Install the pre-commit hooks:
 
         ``` bash
-        pip install pre-commit
+        pre-commit install
         ```
-    3. Now, black and flake8 will automatically run before each commit to ensure the code follows style guidelines and is free from errors.
+    4. Now, black and flake8 will automatically run before each commit to ensure the code follows style guidelines and is free from errors.
 
 ### Pytest unit tests
 
