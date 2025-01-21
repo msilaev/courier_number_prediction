@@ -16,3 +16,4 @@ pip
 seaborn
 pytest
 pylint
+pre-commit
