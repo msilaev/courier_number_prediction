@@ -14,5 +14,5 @@ jupyterlab-mathjax3
 notebook
 pip
 seaborn
-pytest 
+pytest
 pylint

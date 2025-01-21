@@ -1,4 +1,3 @@
-from pathlib import Path
 import typer
 from loguru import logger
 import numpy as np
@@ -16,7 +15,7 @@ def load_scaled_data():
     Load the scaled training and test datasets, along with the scaler.
 
     Returns:
-        tuple: 
+        tuple:
             - training_set_scaled (numpy.ndarray): Scaled training set features.
             - test_set_scaled (numpy.ndarray): Scaled test set features.
             - scaler (object): Fitted scaler for inverse transformations.
@@ -40,13 +39,13 @@ def train_linear_regression(training_days: int, n_steps: int):
         object: Trained linear regression or multi-output regression model.
     """
     logger.info("Loading and preprocessing data...")
-    training_set_scaled, test_set_scaled, scaler = load_scaled_data()
+    training_set_scaled, _, _ = load_scaled_data()
 
     X_train, y_train = [], []
 
     for i in range(training_days, len(training_set_scaled) - n_steps + 1):
-        X_train.append(training_set_scaled[i - training_days:i])
-        y_train.append(training_set_scaled[i:i + n_steps, 0])
+        X_train.append(training_set_scaled[i - training_days : i])
+        y_train.append(training_set_scaled[i : i + n_steps, 0])
 
     X_train = np.array(X_train).reshape((len(X_train), -1))  # Flatten for regression
     y_train = np.array(y_train)
@@ -81,8 +80,8 @@ def train_RNN(epochs: int, batch_size: int, training_days: int, n_steps: int):
     X_train, y_train = [], []
 
     for i in range(training_days, len(training_set_scaled) - n_steps + 1):
-        X_train.append(training_set_scaled[i - training_days:i])
-        y_train.append(training_set_scaled[i:i + n_steps, 0])
+        X_train.append(training_set_scaled[i - training_days : i])
+        y_train.append(training_set_scaled[i : i + n_steps, 0])
 
     X_train, y_train = np.array(X_train), np.array(y_train)
     input_shape = (X_train.shape[1], X_train.shape[2])
@@ -97,13 +96,9 @@ def train_RNN(epochs: int, batch_size: int, training_days: int, n_steps: int):
 
 app = typer.Typer()
 
+
 @app.command()
-def main(
-    epochs: int = 100,
-    batch_size: int = 32,
-    training_days: int = 40,
-    n_steps: int = 20
-):
+def main(epochs: int = 100, batch_size: int = 32, training_days: int = 40, n_steps: int = 20):
     """
     Main function to train and save both LSTM and Linear Regression models.
 

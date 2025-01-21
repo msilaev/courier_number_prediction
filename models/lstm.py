@@ -1,6 +1,7 @@
 from keras.models import Sequential
 from keras.layers import LSTM, Dropout, Dense
 
+
 def create_regressor(input_shape, n_steps):
     """
     Create and compile an LSTM model with Dropout regularization.
@@ -33,6 +34,6 @@ def create_regressor(input_shape, n_steps):
     regressor.add(Dense(units=n_steps))
 
     # Compile the model
-    regressor.compile(optimizer='adam', loss='mean_squared_error')
+    regressor.compile(optimizer="adam", loss="mean_squared_error")
 
     return regressor

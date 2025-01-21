@@ -31,10 +31,10 @@ The following diagram illustrates the structure of the project corresponding to 
 │   └── model_LSTM_featureDays_40_steps_1.h5
 |   └── model_LR_featureDays_40_steps_1.joblib
 │
-├── notebooks          <- Jupyter notebooks. 
+├── notebooks          <- Jupyter notebooks.
 |    └── 1.0-ms-data-exploration-features-modeling.ipynb
 │
-├── pyproject.toml     <- Project configuration file with package metadata for 
+├── pyproject.toml     <- Project configuration file with package metadata for
 │                         wolt_test_assignment and configuration for tools like black│
 │
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
@@ -44,7 +44,7 @@ The following diagram illustrates the structure of the project corresponding to 
 │   ├── REPORT.pdf
 |    └── REPORT.md
 │
-├── requirements.txt   
+├── requirements.txt
 |
 ├── .gitignore
 │
@@ -60,9 +60,9 @@ The following diagram illustrates the structure of the project corresponding to 
     │
     ├── features.py             <- Code to create features for modeling
     │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
+    ├── modeling
+    │   ├── __init__.py
+    │   ├── predict.py          <- Code to run model inference with trained models
     │   └── train.py            <- Code to train models
     │
     └── plots.py                <- Code to create visualizations
@@ -105,23 +105,23 @@ The following diagram illustrates the structure of the project corresponding to 
 
 ### Configuration
 
-Ensure that the paths in [config.py](http://_vscodecontentref_/0) are correctly set up. 
+Ensure that the paths in [config.py](http://_vscodecontentref_/0) are correctly set up.
 Choose the proper value of 'SPLIT_DATE' variable to separate training and test datasets.
 
 ## Preparing data and training
 
 ```
-cd wolt_test_assignment  
+cd wolt_test_assignment
 ```
 
 ### Cleaning data
 ```
-python dataset.py  
+python dataset.py
 ```
 
 ### Preparing features and train/test split
 ```
-python features.py  
+python features.py
 ```
 
 ### To train both the LSTM model and Linear Regression models for next-day prediction:
@@ -143,5 +143,3 @@ python modeling/eval_models_single_step.py  --training-days 40
 python modeling/eval_models_multiple_step.py  --training-days 40 --n-steps 20
 ```
 The metrics for prediction quality is displayed in terminal and plots are saved in the folder `..\reports\figures`
-
-
