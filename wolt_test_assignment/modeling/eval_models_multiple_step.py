@@ -126,12 +126,8 @@ def eval_LSTM_model(
     test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
 
     total_set_scaled = np.concatenate((training_set_scaled, test_set_scaled), axis=0)
-    len_train = len(training_set_scaled)
 
     X_test = []
-
-    # for i in range(training_days, len(total_set_scaled) - n_steps + 1):
-    #    X_total.append(total_set_scaled[i - training_days:i])
 
     for i in range(training_days, len(test_set_scaled) - n_steps + 1):
         X_test.append(test_set_scaled[i - training_days : i])
@@ -148,11 +144,11 @@ def eval_LSTM_model(
     model_path = MODELS_DIR / model_name
     model = load_model(model_path)
 
-    # predicted_courier_number = model.predict(X_test, verbose = 0)
+    predicted_courier_number = model.predict(X_test, verbose=0)
 
-    predicted_courier_number = model.predict(X_total, verbose=0)[
-        len_train:
-    ]  # Predictions for the test set
+    # predicted_courier_number = model.predict(X_total, verbose=0)[
+    #    len_train:
+    # ]  # Predictions for the test set
 
     predicted_courier_number = predicted_courier_number[start_ind, :].flatten()
     y_test_original = test_target[

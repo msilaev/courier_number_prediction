@@ -23,7 +23,7 @@ def prepare_features(df, split_date):
     - Test target set (`test_target_set.npy`).
     - Scaler object (`scaler.pkl`).
     """
-    features = ["courier_partners_online", "precipitation"] + [
+    features = ["courier_partners_online", "temperature", "precipitation"] + [
         col for col in df.columns if col.startswith("day_of_week")
     ]
     total_set = df[features].values
@@ -45,30 +45,6 @@ def prepare_features(df, split_date):
         df["courier_partners_online"][df["date"] >= split_date].values,
     )
     joblib.dump(scaler, PROCESSED_DATA_DIR / "scaler.pkl")
-
-
-def create_sequences(data, training_days, n_steps):
-    """
-    Create input-output sequences for time series forecasting.
-
-    Parameters:
-    data (array): The scaled dataset containing features.
-    training_days (int): The number of past days to use as input for prediction.
-    n_steps (int): The number of future steps to predict.
-
-    Returns:
-    tuple:
-    - X (array): Array of input sequences of shape `(num_samples, training_days, num_features)`.
-    - y (array): Array of target sequences of shape `(num_samples, n_steps)`.
-    """
-    X, y = [], []
-    for i in range(training_days, len(data) - n_steps + 1):
-        X.append(data[i - training_days : i])
-        y.append(
-            data[i : i + n_steps, 0]
-        )  # Predict 'n_steps' future values of 'courier_partners_online'
-
-    return np.array(X), np.array(y)
 
 
 app = typer.Typer()
