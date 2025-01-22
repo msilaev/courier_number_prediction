@@ -77,14 +77,14 @@ The following diagram illustrates the structure of the project corresponding to 
 
 ### Installation
 
-1. Clone the repository:
+1. Either clone the repository:
 
     ```bash
     git clone https://github.com/yourusername/wolt_test_assignment_2025.git
     cd wolt_test_assignment_2025
     ```
 
-    or unpack `wotl_test_assignment_2025.zip` into folder  `\wotl_test_assignment_2025 `
+   or alternatively just download it and 
     ```bash
     cd wolt_test_assignment_2025
     ```
