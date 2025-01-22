@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "wolt_test_assignment"
 version = "0.0.1"
-description = "A short description of the project."
+description = "Predicting courier number for several days ahead."
 authors = [
   { name = "Mikhail Silaev" },
 ]
