@@ -157,7 +157,7 @@ python modeling/eval_models_multiple_step.py  --training-days 40 --n-steps 20
 
 ## Running in a pipeline
 
-All tasks described in the previous section can be run in a single piplene as
+All tasks described in the previous sections can be run in a single pipeline as
 ```bash
 cd wolt_test_assignment
 python pipeline.py
@@ -174,32 +174,32 @@ Pre-commit hooks automatically run linters before each commit to ensure code qua
 
     2. If not already, initialize git repo
         
-        ``` bash
+        ```bash
         git init
         ```
     3. Install the pre-commit hooks:
 
-        ``` bash
+        ```bash
         pre-commit install
         ```
     4. Now, black and flake8 will automatically run before each commit to ensure the code follows style guidelines and is free from errors.
 
 ### Pytest unit tests
 
-Run unit tests from the
+Run unit tests for `..\dataset.py`, `..\features.py`, `..\wolt_test_assignment\train.py` as follows 
 
-        ``` bash
+        ```bash
         cd wolt_test_assignment
         pytest tests/
         ```
 
 ## Reporting
 
-The metrics for prediction quality is displayed in terminal and plots are saved in the folder `..\reports\figures`
-The report with updated figures is in the file `..\reports\REPORT.md`
-Presentation in pptx and pdf form are in files `..\reports\presentation.pptx` and `..\reports\presentation.pdf`
+The metrics for prediction quality is displayed in terminal as log info messages. Plots are saved in the folder `..\reports\figures`.
+The report with updated figures `..\reports\REPORT.md`.
+Presentation in pptx and pdf `..\reports\presentation.pptx` and `..\reports\presentation.pdf`.
 
-## Jyputer notebook detailed description
+## Jyputer notebook with details
 
-Detailed reasoning, code and plots are presented in the notebook `..\notebooks\1.0-ms-data-exploration-features-modeling.ipynb`
+Detailed reasoning, code and plots in the notebook `..\notebooks\1.0-ms-data-exploration-features-modeling.ipynb`
 After installing dependencies, run all cells to see dataset cleaning, feature engineering, model training and inference.
