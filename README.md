@@ -170,28 +170,30 @@ python pipeline.py
 
 Pre-commit hooks automatically run linters before each commit to ensure code quality. To set up pre-commit hooks for your project, follow these steps:
 
-    1. Put .pre-commit-config.yaml file to the root directory of the project
+1. Put `.pre-commit-config.yaml` file in the root directory of the project.
 
-    2. If not already, initialize git repo
-        
-        ```bash
-        git init
-        ```
-    3. Install the pre-commit hooks:
+2. If not already, initialize a git repository:
 
-        ```bash
-        pre-commit install
-        ```
-    4. Now, black and flake8 will automatically run before each commit to ensure the code follows style guidelines and is free from errors.
+    ```bash
+    git init
+    ```
+
+3. Install the pre-commit hooks:
+
+    ```bash
+    pre-commit install
+    ```
+
+4. Now, `black` and `flake8` will automatically run before each commit to ensure the code follows style guidelines and is free from errors.
 
 ### Pytest unit tests
 
-Run unit tests for `..\dataset.py`, `..\features.py`, `..\wolt_test_assignment\train.py` as follows 
+Run unit tests for `dataset.py`, `features.py`, and `train.py` as follows:
 
-        ```bash
-        cd wolt_test_assignment
-        pytest tests/
-        ```
+```bash
+cd wolt_test_assignment
+pytest tests/
+```
 
 ## Reporting
 
