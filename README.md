@@ -186,13 +186,18 @@ Pre-commit hooks automatically run linters before each commit to ensure code qua
 
 4. Now, `black` and `flake8` will automatically run before each commit to ensure the code follows style guidelines and is free from errors.
 
-### Pytest unit tests
-
-Run unit tests for `dataset.py`, `features.py`, and `train.py` as follows:
+Overall code formating test (current score 8.36/10), run from the project root
 
 ```bash
-cd wolt_test_assignment
-pytest tests/
+pylint .
+```
+
+### Pytest unit tests
+
+Run unit tests for `dataset.py`, `features.py`, and `train.py` from the project root
+
+```bash
+pytest .
 ```
 
 ## Reporting
