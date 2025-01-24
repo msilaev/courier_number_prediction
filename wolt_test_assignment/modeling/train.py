@@ -1,12 +1,11 @@
+import joblib
+import numpy as np
 import typer
 from loguru import logger
-import numpy as np
-import joblib
-
-from models.lstm import create_regressor
 from sklearn.linear_model import LinearRegression
 from sklearn.multioutput import MultiOutputRegressor
 
+from models.lstm import create_regressor
 from wolt_test_assignment.config import MODELS_DIR, PROCESSED_DATA_DIR
 
 
@@ -75,7 +74,7 @@ def train_RNN(epochs: int, batch_size: int, training_days: int, n_steps: int):
         Sequential: Trained LSTM model.
     """
     logger.info("Loading and preprocessing data...")
-    training_set_scaled, test_set_scaled, scaler = load_scaled_data()
+    training_set_scaled, _, _ = load_scaled_data()
 
     X_train, y_train = [], []
 

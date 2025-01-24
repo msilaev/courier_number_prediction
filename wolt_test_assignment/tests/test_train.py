@@ -1,6 +1,8 @@
-import pytest
+from unittest.mock import MagicMock, patch
+
 import numpy as np
-from unittest.mock import patch, MagicMock
+import pytest
+
 from wolt_test_assignment.modeling.train import (
     load_scaled_data,
     train_linear_regression,
@@ -41,7 +43,7 @@ def test_train_linear_regression(
 
 @patch("wolt_test_assignment.modeling.train.load_scaled_data")
 @patch("wolt_test_assignment.modeling.train.create_regressor")
-def test_train_RNN(mock_create_regressor, mock_load_scaled_data):
+def test_train_rnn(mock_create_regressor, mock_load_scaled_data):
     # Arrange
     mock_load_scaled_data.return_value = (
         np.random.rand(100, 10),
