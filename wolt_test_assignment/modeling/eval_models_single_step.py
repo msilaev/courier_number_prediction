@@ -81,7 +81,7 @@ def eval_lstm_model(
     )
 
 
-def eval_LR_model(
+def eval_lr_model(
     model_path: Path = MODELS_DIR / "model_LR.joblib",
     training_days: int = 40,
     n_steps: int = 1,
@@ -177,7 +177,7 @@ def main(training_days: int = 40, n_steps: int = 1):
     model_name = f"model_LR_featureDays_{training_days}_steps_{n_steps}.joblib"
     model_path = MODELS_DIR / model_name
 
-    y_test_original, predicted_courier_number_original, start_date_str = eval_LR_model(
+    y_test_original, predicted_courier_number_original, start_date_str = eval_lr_model(
         model_path, training_days, n_steps
     )
     mae, mse, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)

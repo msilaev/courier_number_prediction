@@ -1,12 +1,10 @@
 from pathlib import Path
-import typer
+
 import pandas as pd
+import typer
 from loguru import logger
 
-from wolt_test_assignment.config import (
-    RAW_DATA_DIR,
-    INTERIM_DATA_DIR,
-)
+from wolt_test_assignment.config import INTERIM_DATA_DIR, RAW_DATA_DIR
 
 
 def load_data(file_path):
@@ -69,7 +67,8 @@ def main(
 
     Steps:
         1. Load the dataset from the input CSV file.
-        2. Clean the data by removing anomalies, filling missing values, and adding one-hot encoding.
+        2. Clean the data by removing anomalies, filling missing values,
+        and adding one-hot encoding.
         3. Save the cleaned dataset to the specified output path.
     """
     logger.info("Processing dataset...")
