@@ -1,22 +1,18 @@
-from datetime import datetime, timedelta
-from pathlib import Path
 import os
 import warnings
+from datetime import datetime, timedelta
+from pathlib import Path
 
 # Related third-party imports
 import absl.logging
 import numpy as np
 import typer
-from keras.models import load_model
 from joblib import load
+from keras.models import load_model
 from loguru import logger
 
 # Local application/library-specific imports
-from wolt_test_assignment.config import (
-    FIGURES_DIR,
-    MODELS_DIR,
-    SPLIT_DATE,
-)
+from wolt_test_assignment.config import FIGURES_DIR, MODELS_DIR, SPLIT_DATE
 from wolt_test_assignment.modeling.utils import calculate_metrics, load_features_target
 from wolt_test_assignment.plots import plot_prediction
 
@@ -47,7 +43,8 @@ def eval_LSTM_model(
     Returns:
         tuple:
             - y_test_original (np.ndarray): Actual target values from the test set.
-            - predicted_courier_number_original (np.ndarray): Predicted values transformed back to the original scale.
+            - predicted_courier_number_original (np.ndarray): Predicted values
+            - transformed back to the original scale.
             - start_date_str (str): Start date of predictions in "YYYY-MM-DD" format.
     """
     test_target, _, test_set_scaled, scaler = load_features_target()
@@ -102,7 +99,8 @@ def eval_LR_model(
     Returns:
         tuple:
             - y_test_original (np.ndarray): Actual target values from the test set.
-            - predicted_courier_number_original (np.ndarray): Predicted values transformed back to the original scale.
+            - predicted_courier_number_original (np.ndarray): Predicted values
+            - transformed back to the original scale.
             - start_date_str (str): Start date of predictions in "YYYY-MM-DD" format.
     """
     test_target, _, test_set_scaled, scaler = load_features_target()

@@ -1,22 +1,18 @@
 # Standard library imports
-from datetime import datetime, timedelta
 import os
 import warnings
+from datetime import datetime, timedelta
 
 # Related third-party imports
 import absl.logging
 import numpy as np
 import typer
-from keras.models import load_model
 from joblib import load
+from keras.models import load_model
 from loguru import logger
 
 # Local application/library-specific imports
-from wolt_test_assignment.config import (
-    FIGURES_DIR,
-    MODELS_DIR,
-    SPLIT_DATE,
-)
+from wolt_test_assignment.config import FIGURES_DIR, MODELS_DIR, SPLIT_DATE
 from wolt_test_assignment.modeling.utils import calculate_metrics, load_features_target
 from wolt_test_assignment.plots import plot_prediction
 
@@ -31,7 +27,22 @@ warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", message=r"Compiled the loaded model.*")
 
 
-def eval_LR_model(
+def load_and_prepare_data(training_days, n_steps):
+    """
+    Load and prepare the test data.
+    """
+    test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
+
+    X_test = [
+        test_set_scaled[i - training_days : i].flatten()
+        for i in range(training_days, len(test_set_scaled) - n_steps + 1)
+    ]
+    X_test = np.array(X_test)
+
+    return X_test, test_target, scaler, training_set_scaled
+
+
+def eval_lr_model(
     model_name: str = "model_LR_multioutput.joblib",
     training_days: int = 40,
     n_steps: int = 20,
@@ -54,17 +65,22 @@ def eval_LR_model(
     """
 
     # Load scaled data
-    test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
+    # test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
 
     # Prepare test data
-    X_test = []
+    # X_test = []
 
-    for i in range(training_days, len(test_set_scaled) - n_steps + 1):
-        X_test.append(
-            test_set_scaled[i - training_days : i].flatten()
-        )  # Flatten for MultiOutputRegressor input
+    # for i in range(training_days, len(test_set_scaled) - n_steps + 1):
+    #    X_test.append(
+    #        test_set_scaled[i - training_days : i].flatten()
+    #    )  # Flatten for MultiOutputRegressor input
 
-    X_test = np.array(X_test)
+    # X_test = np.array(X_test)
+
+    # Load and prepare data
+    X_test, test_target, scaler, training_set_scaled = load_and_prepare_data(
+        training_days, n_steps
+    )
 
     # Load the trained model
     model_path = MODELS_DIR / model_name
@@ -77,6 +93,7 @@ def eval_LR_model(
     y_test_original = test_target[
         start_ind + training_days : start_ind + training_days + n_steps
     ].flatten()
+
     predicted_courier_number = predicted_courier_number[start_ind, :].flatten()
 
     # Create a placeholder array for inverse transform
@@ -101,7 +118,7 @@ def eval_LR_model(
     return y_test_original, predicted_courier_number_original, start_date_str
 
 
-def eval_LSTM_model(
+def eval_lstm_model(
     model_name: str = "model_RNN.h5",
     training_days: int = 40,
     n_steps: int = 20,
@@ -191,10 +208,11 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
     - n_steps (int): Number of steps to predict into the future.
     - start_ind (int): Index to start evaluation from.
 
-    Runs evaluations for both the LSTM and Linear Regression models, calculates metrics, and generates prediction plots.
+    Runs evaluations for both the LSTM and Linear Regression models,
+    calculates metrics, and generates prediction plots.
     """
 
-    test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
+    test_target, _, _, _ = load_features_target()
 
     number_intervals = len(test_target) - training_days - n_steps + 1
 
@@ -215,7 +233,7 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
             y_test_original,
             predicted_courier_number_original,
             start_date,
-        ) = eval_LSTM_model(model_path, training_days, n_steps, start_ind)
+        ) = eval_lstm_model(model_path, training_days, n_steps, start_ind)
 
         mae, mse, rmse, snr, r2 = calculate_metrics(
             y_test_original, predicted_courier_number_original
@@ -266,7 +284,7 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
             y_test_original,
             predicted_courier_number_original,
             start_date_str,
-        ) = eval_LR_model(model_path, training_days, n_steps, start_ind)
+        ) = eval_lr_model(model_path, training_days, n_steps, start_ind)
 
         mae, mse, rmse, snr, r2 = calculate_metrics(
             y_test_original, predicted_courier_number_original
@@ -283,8 +301,8 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
                 predicted_courier_number_original,
                 start_date_str,
                 figure_title=f"Linear regression prediction {n_steps} days forward",
-                figure_path=FIGURES_DIR
-                / f"plot_LR_featureDays_{training_days}_steps_{n_steps}_days_interval_{start_ind}.png",
+                figure_path=FIGURES_DIR / f"plot_LR_featureDays_{training_days}_"
+                f"steps_{n_steps}_days_interval_{start_ind}.png",
             )
 
     mae = np.array(mae_list)
@@ -293,7 +311,12 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
     snr = np.array(snr_list)
     r2 = np.array(r2_list)
 
-    metrics = f"MAE: {np.mean(mae):.2f}, MSE: {np.mean(mse):.2f}, R2: {np.mean(r2):.2f}, SNR: {np.mean(snr):.2f}"
+    metrics = (
+        f"MAE: {np.mean(mae):.2f}, "
+        f"MSE: {np.mean(mse):.2f}, "
+        f"R2: {np.mean(r2):.2f}, "
+        f"SNR: {np.mean(snr):.2f}"
+    )
 
     logger.info(metrics)
 
