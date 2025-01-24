@@ -40,13 +40,13 @@ def train_linear_regression(training_days: int, n_steps: int):
     logger.info("Loading and preprocessing data...")
     training_set_scaled, _, _ = load_scaled_data()
 
-    X_train, y_train = [], []
+    x_train, y_train = [], []
 
     for i in range(training_days, len(training_set_scaled) - n_steps + 1):
-        X_train.append(training_set_scaled[i - training_days : i])
+        x_train.append(training_set_scaled[i - training_days : i])
         y_train.append(training_set_scaled[i : i + n_steps, 0])
 
-    X_train = np.array(X_train).reshape((len(X_train), -1))  # Flatten for regression
+    x_train = np.array(x_train).reshape((len(x_train), -1))  # Flatten for regression
     y_train = np.array(y_train)
 
     logger.info("Training the linear regression model...")
@@ -56,7 +56,7 @@ def train_linear_regression(training_days: int, n_steps: int):
     else:
         model = MultiOutputRegressor(LinearRegression())
 
-    model.fit(X_train, y_train)
+    model.fit(x_train, y_train)
     return model
 
 
@@ -76,20 +76,20 @@ def train_RNN(epochs: int, batch_size: int, training_days: int, n_steps: int):
     logger.info("Loading and preprocessing data...")
     training_set_scaled, _, _ = load_scaled_data()
 
-    X_train, y_train = [], []
+    x_train, y_train = [], []
 
     for i in range(training_days, len(training_set_scaled) - n_steps + 1):
-        X_train.append(training_set_scaled[i - training_days : i])
+        x_train.append(training_set_scaled[i - training_days : i])
         y_train.append(training_set_scaled[i : i + n_steps, 0])
 
-    X_train, y_train = np.array(X_train), np.array(y_train)
-    input_shape = (X_train.shape[1], X_train.shape[2])
+    x_train, y_train = np.array(x_train), np.array(y_train)
+    input_shape = (x_train.shape[1], x_train.shape[2])
 
     logger.info("Building the LSTM model...")
     regressor = create_regressor(input_shape, n_steps)
 
     logger.info("Training the LSTM model...")
-    regressor.fit(X_train, y_train, epochs=epochs, batch_size=batch_size)
+    regressor.fit(x_train, y_train, epochs=epochs, batch_size=batch_size)
     return regressor
 
 

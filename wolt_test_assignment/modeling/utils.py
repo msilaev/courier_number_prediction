@@ -1,9 +1,8 @@
-import numpy as np
 import joblib
-from wolt_test_assignment.config import (
-    PROCESSED_DATA_DIR,
-)
+import numpy as np
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+from wolt_test_assignment.config import PROCESSED_DATA_DIR
 
 
 def load_features_target():
