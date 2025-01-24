@@ -4,10 +4,17 @@ This repository contains the code for preparing training, test datases, training
 
 ## Setup
 
-### Prerequisites
+### Requirements
+
+This repository was tested on Microsoft Windows 11 Pro and Ubuntu 22.04. 
 
 - Python 3.11 or higher
-- pip (Python package installer)
+- isort
+- pandas
+- numpy
+- matplotlib
+- scikit-learn
+- tensorflow
 
 ### Project structure
 
@@ -114,10 +121,15 @@ The following diagram illustrates the structure of the project corresponding to 
     ```bash
     pip install -r requirements.txt
     ```
+5. The package need to be installed locally in editable mode:
+
+    ```bash
+    pip install -e .
+    ```
 
 ### Configuration
 
-Ensure that the paths in [config.py](http://_vscodecontentref_/0) are correctly set up.
+Ensure that the paths in `config.py` are correctly set up.
 Choose the proper value of 'SPLIT_DATE' variable to separate training and test datasets.
 
 ## Preparing data and training
@@ -166,9 +178,28 @@ python pipeline.py
 
 ## Testing
 
-### Lint test with pre-commit Hooks
+### Lint and unit tests
 
-Pre-commit hooks automatically run linters before each commit to ensure code quality. To set up pre-commit hooks for your project, follow these steps:
+Unit tests are for for `dataset.py`, `features.py`, and `train.py`.
+Tests can be run from the root folder:
+
+```bash
+black .
+flake8 .
+pytest .
+```
+
+Overall code formating test (current score 8.36/10):
+
+```bash
+pylint .
+```
+
+### Test with pre-commit Hooks
+
+These tests are also included in the  [pre-commit](https://pypi.org/project/pre-commit/)
+configuration for the project. 
+Pre-commit hooks automatically run linters and unit tests before each commit to ensure code quality. To set up pre-commit hooks for your project, follow these steps:
 
 1. Put `.pre-commit-config.yaml` file in the root directory of the project.
 
@@ -184,21 +215,6 @@ Pre-commit hooks automatically run linters before each commit to ensure code qua
     pre-commit install
     ```
 
-4. Now, `black` and `flake8` will automatically run before each commit to ensure the code follows style guidelines and is free from errors.
-
-Overall code formating test (current score 8.36/10), run from the project root
-
-```bash
-pylint .
-```
-
-### Pytest unit tests
-
-Run unit tests for `dataset.py`, `features.py`, and `train.py` from the project root
-
-```bash
-pytest .
-```
 
 ## Reporting
 

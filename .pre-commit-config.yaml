@@ -31,3 +31,28 @@ repos:
         name: Flake8 linter
         description: Runs flake8 to check for coding style issues.
         stages: [pre-commit]
+
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        language: system
+        entry: black
+        types: [python]
+      - id: isort
+        name: isort
+        language: system
+        entry: isort
+        args: ["--profile", "black"]
+        types: [python]
+      - id: flake8
+        name: flake8
+        language: system
+        entry: flake8
+        types: [python]
+      - id: pytest
+        name: pytest
+        language: system
+        entry: python -m pytest
+        pass_filenames: false
+        always_run: true
