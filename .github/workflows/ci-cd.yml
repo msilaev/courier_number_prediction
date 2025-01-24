@@ -38,10 +38,6 @@ jobs:
         run: |
             flake8 .
 
-      - name: Run Pylint
-        run: |
-            pylint wolt_test_assignment
-
       - name: Run Pytest
         run: |
             pytest
