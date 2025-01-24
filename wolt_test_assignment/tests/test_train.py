@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pytest
 
-from wolt_test_assignment.modeling.train import train_linear_regression, train_RNN
+from wolt_test_assignment.modeling.train import train_linear_regression, train_rnn
 
 # from wolt_test_assignment.config import PROCESSED_DATA_DIR, MODELS_DIR
 
@@ -54,7 +54,7 @@ def test_train_rnn(mock_create_regressor, mock_load_scaled_data):
     n_steps = 1
 
     # Act
-    model = train_RNN(epochs, batch_size, training_days, n_steps)
+    model = train_rnn(epochs, batch_size, training_days, n_steps)
 
     # Assert
     assert model is not None

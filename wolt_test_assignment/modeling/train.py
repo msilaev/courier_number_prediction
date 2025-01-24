@@ -60,7 +60,7 @@ def train_linear_regression(training_days: int, n_steps: int):
     return model
 
 
-def train_RNN(epochs: int, batch_size: int, training_days: int, n_steps: int):
+def train_rnn(epochs: int, batch_size: int, training_days: int, n_steps: int):
     """
     Train an LSTM model for time series forecasting.
 
@@ -108,7 +108,7 @@ def main(epochs: int = 100, batch_size: int = 32, training_days: int = 40, n_ste
         n_steps (int): Number of future steps to predict.
     """
     logger.info("Training the LSTM model...")
-    lstm_regressor = train_RNN(epochs, batch_size, training_days, n_steps)
+    lstm_regressor = train_rnn(epochs, batch_size, training_days, n_steps)
     lstm_model_name = f"model_LSTM_featureDays_{training_days}_steps_{n_steps}.h5"
     lstm_model_path = MODELS_DIR / lstm_model_name
     lstm_regressor.save(lstm_model_path)
