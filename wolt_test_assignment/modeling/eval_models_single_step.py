@@ -180,7 +180,7 @@ def main(training_days: int = 40, n_steps: int = 1):
     y_test_original, predicted_courier_number_original, start_date_str = eval_lr_model(
         model_path, training_days, n_steps
     )
-    mae, mse, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
+    mae, _, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
     logger.info(f"LR Metrics: MAE={mae:.2f}, R2={r2:.2f}, RMSE={rmse:.2f}, SNR={snr:.2f}")
 
     plot_prediction(
