@@ -244,7 +244,7 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
         snr_list.append(snr)
         r2_list.append(r2)
 
-        if start_ind % 10 == 0:
+        if start_ind_ % 10 == 0:
             plot_prediction(
                 y_test_original,
                 predicted_courier_number_original,
@@ -252,7 +252,7 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
                 figure_title=f"LSTM prediction {n_steps} days forward",
                 figure_path=(
                     FIGURES_DIR
-                    / f"plot_LSTM_Days_{training_days}_steps_{n_steps}_days_interval_{start_ind_}.png"
+                    / f"plot_LSTM_featureDays_{training_days}_steps_{n_steps}_days_interval_{start_ind_}.png"
                 ),
             )
 
@@ -279,7 +279,7 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
 
     logger.info("testing the Linear regression model...")
 
-    model_name = f"model_LR_Days_{training_days}_steps_{n_steps}.joblib"
+    model_name = f"model_LR_featureDays_{training_days}_steps_{n_steps}.joblib"
     model_path = MODELS_DIR / model_name
 
     mae_list = []
@@ -310,7 +310,7 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
                 predicted_courier_number_original,
                 start_date_str,
                 figure_title=f"Linear regression prediction {n_steps} days forward",
-                figure_path=FIGURES_DIR / f"plot_LR_Days_{training_days}_"
+                figure_path=FIGURES_DIR / f"plot_LR_featureDays_{training_days}_"
                 f"steps_{n_steps}_days_interval_{start_ind}.png",
             )
 
