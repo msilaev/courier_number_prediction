@@ -6,7 +6,8 @@ This repository contains the code for preparing training, test datases, training
 
 ### Requirements
 
-This repository was tested on Microsoft Windows 11 Pro and Ubuntu 22.04. 
+This repository was tested on Microsoft Windows 11 Pro and Ubuntu 22.04. For the latter replace in all commands 
+`pithon` to `pithon3`.
 
 - Python 3.11 or higher
 - isort
