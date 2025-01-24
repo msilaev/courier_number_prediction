@@ -33,13 +33,13 @@ def load_and_prepare_data(training_days, n_steps):
     """
     test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
 
-    X_test = [
+    x_test = [
         test_set_scaled[i - training_days : i].flatten()
         for i in range(training_days, len(test_set_scaled) - n_steps + 1)
     ]
-    X_test = np.array(X_test)
+    x_test = np.array(x_test)
 
-    return X_test, test_target, scaler, training_set_scaled
+    return x_test, test_target, scaler, training_set_scaled
 
 
 def eval_lr_model(
@@ -68,17 +68,17 @@ def eval_lr_model(
     # test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
 
     # Prepare test data
-    # X_test = []
+    # x_test = []
 
     # for i in range(training_days, len(test_set_scaled) - n_steps + 1):
-    #    X_test.append(
+    #    x_test.append(
     #        test_set_scaled[i - training_days : i].flatten()
     #    )  # Flatten for MultiOutputRegressor input
 
-    # X_test = np.array(X_test)
+    # x_test = np.array(x_test)
 
     # Load and prepare data
-    X_test, test_target, scaler, training_set_scaled = load_and_prepare_data(
+    x_test, test_target, scaler, training_set_scaled = load_and_prepare_data(
         training_days, n_steps
     )
 
@@ -87,7 +87,7 @@ def eval_lr_model(
     model = load(model_path)  # Load MultiOutputRegressor(LinearRegression())
 
     # Make predictions on the test set
-    predicted_courier_number = model.predict(X_test)
+    predicted_courier_number = model.predict(x_test)
 
     #################################
     y_test_original = test_target[
@@ -144,11 +144,11 @@ def eval_lstm_model(
 
     total_set_scaled = np.concatenate((training_set_scaled, test_set_scaled), axis=0)
 
-    X_test = []
+    x_test = []
 
     for i in range(training_days, len(test_set_scaled) - n_steps + 1):
-        X_test.append(test_set_scaled[i - training_days : i])
-    X_test = np.array(X_test)
+        x_test.append(test_set_scaled[i - training_days : i])
+    x_test = np.array(x_test)
 
     X_total = []
     for i in range(training_days, len(total_set_scaled) - n_steps + 1):
@@ -161,7 +161,7 @@ def eval_lstm_model(
     model_path = MODELS_DIR / model_name
     model = load_model(model_path)
 
-    predicted_courier_number = model.predict(X_test, verbose=0)
+    predicted_courier_number = model.predict(x_test, verbose=0)
 
     # predicted_courier_number = model.predict(X_total, verbose=0)[
     #    len_train:

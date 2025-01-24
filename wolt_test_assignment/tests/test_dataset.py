@@ -1,6 +1,5 @@
-import pytest
-from wolt_test_assignment.dataset import load_data  # Replace with actual function names
 from wolt_test_assignment.config import RAW_DATA_DIR
+from wolt_test_assignment.dataset import load_data  # Replace with actual function names
 
 
 def test_load_data():

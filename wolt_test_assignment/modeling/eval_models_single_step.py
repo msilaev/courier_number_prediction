@@ -27,7 +27,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", message=r"Compiled the loaded model.*")
 
 
-def eval_LSTM_model(
+def eval_lstm_model(
     model_path: Path = MODELS_DIR / "model_RNN_next_day.h5",
     training_days: int = 40,
     n_steps: int = 1,
@@ -49,19 +49,19 @@ def eval_LSTM_model(
     """
     test_target, _, test_set_scaled, scaler = load_features_target()
 
-    X_test = []
+    x_test = []
     y_test_original = []
     test_target = test_target.reshape(-1, 1)
 
     for i in range(training_days, len(test_set_scaled) - n_steps + 1):
-        X_test.append(test_set_scaled[i - training_days : i])
+        x_test.append(test_set_scaled[i - training_days : i])
         y_test_original.append(test_target[i, 0])
 
-    X_test = np.array(X_test)
+    x_test = np.array(x_test)
     y_test_original = np.array(y_test_original)
 
     model = load_model(model_path)
-    predicted_courier_number = model.predict(X_test, verbose=0)
+    predicted_courier_number = model.predict(x_test, verbose=0)
 
     predicted_full = np.zeros((predicted_courier_number.shape[0], test_set_scaled.shape[1]))
     predicted_full[:, 0] = predicted_courier_number.flatten()
@@ -105,19 +105,19 @@ def eval_LR_model(
     """
     test_target, _, test_set_scaled, scaler = load_features_target()
 
-    X_test = []
+    x_test = []
     y_test_original = []
     test_target = test_target.reshape(-1, 1)
 
     for i in range(training_days, len(test_set_scaled) - n_steps + 1):
-        X_test.append(test_set_scaled[i - training_days : i].flatten())
+        x_test.append(test_set_scaled[i - training_days : i].flatten())
         y_test_original.append(test_target[i, 0])
 
-    X_test = np.array(X_test)
+    x_test = np.array(x_test)
     y_test_original = np.array(y_test_original)
 
     model = load(model_path)
-    predicted_courier_number = model.predict(X_test)
+    predicted_courier_number = model.predict(x_test)
 
     predicted_full = np.zeros((predicted_courier_number.shape[0], test_set_scaled.shape[1]))
     predicted_full[:, 0] = predicted_courier_number.flatten()
@@ -160,8 +160,8 @@ def main(training_days: int = 40, n_steps: int = 1):
         y_test_original,
         predicted_courier_number_original,
         start_date_str,
-    ) = eval_LSTM_model(model_path, training_days, n_steps)
-    mae, mse, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
+    ) = eval_lstm_model(model_path, training_days, n_steps)
+    mae, _, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
     logger.info(f"LSTM Metrics: MAE={mae:.2f}, R2={r2:.2f}, RMSE={rmse:.2f}, SNR={snr:.2f}")
 
     plot_prediction(

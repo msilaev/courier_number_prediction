@@ -3,11 +3,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pytest
 
-from wolt_test_assignment.modeling.train import (
-    load_scaled_data,
-    train_linear_regression,
-    train_RNN,
-)
+from wolt_test_assignment.modeling.train import train_linear_regression, train_RNN
 
 # from wolt_test_assignment.config import PROCESSED_DATA_DIR, MODELS_DIR
 
