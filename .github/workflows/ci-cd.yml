@@ -30,8 +30,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-          - name: Run Black
-          run: |
+      - name: Run Black
+        run: |
             black --check .
 
       - name: Run Flake8
