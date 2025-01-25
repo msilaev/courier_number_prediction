@@ -133,7 +133,7 @@ The following diagram illustrates the structure of the project corresponding to 
 Ensure that the paths in `config.py` are correctly set up.
 Choose the proper value of 'SPLIT_DATE' variable to separate training and test datasets.
 
-## Preparing data and training
+## Preparing data 
 
 ```bash
 cd wolt_test_assignment
@@ -149,12 +149,17 @@ python dataset.py
 python features.py
 ```
 
-### To train both the LSTM model and Linear Regression models for next-day prediction:
+## Training and inference
+
+Choose the length of look-back window `training-days` to form historical features. 
+Choose the number of days ahead for Multiple-Step task prediction `n-steps` 
+
+### To train both the LSTM model and Linear Regression models for Next-Day prediction:
 ```bash
 python modeling/train.py --epochs 20 --batch-size 16 --training-days 40 --n-steps 1
 ```
 
-### To train both the LSTM model and Linear Regression models for several days prediction:
+### To train both the LSTM model and Linear Regression models for Multiple-Day (n-steps) prediction:
 ```bash
 python modeling/train.py --epochs 100 --batch-size 32 --training-days 40 --n-steps 20
 ```
@@ -216,14 +221,16 @@ Pre-commit hooks automatically run linters and unit tests before each commit to 
     pre-commit install
     ```
 
-
 ## Reporting
 
 The metrics for prediction quality is displayed in terminal as log info messages. Plots are saved in the folder `..\reports\figures`.
 The report with updated figures `..\reports\REPORT.md`.
 Presentation in pptx and pdf `..\reports\presentation.pptx` and `..\reports\presentation.pdf`.
 
-## Jyputer notebook with details
+## Jyputer notebooks with details
 
-Detailed reasoning, code and plots in the notebook `..\notebooks\1.0-ms-data-exploration-features-modeling.ipynb`
-After installing dependencies, run all cells to see dataset cleaning, feature engineering, model training and inference.
+Data cleaning and feature engineering  `..\notebooks\1.0-ms-data-exploration-features-engineering.ipynb`
+Models training and inference of Next-Day prediction task `..\notebooks\1.0-ms-features-modeling-next-day.ipynb`
+Models training and inference of Multiple-Day prediction task `..\notebooks\1.0-ms-features-modeling-multiple-days.ipynb`
+
+After installing dependencies, run all cells in these notebooks to see dataset cleaning, feature engineering, model training and inference.
