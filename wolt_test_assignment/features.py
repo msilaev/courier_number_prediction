@@ -6,7 +6,8 @@ import joblib
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from wolt_test_assignment.config import PROCESSED_DATA_DIR, INTERIM_DATA_DIR, SPLIT_DATE
-#from config import PROCESSED_DATA_DIR, INTERIM_DATA_DIR, SPLIT_DATE
+
+# from config import PROCESSED_DATA_DIR, INTERIM_DATA_DIR, SPLIT_DATE
 
 
 def prepare_features(df, split_date):

@@ -4,6 +4,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from wolt_test_assignment.config import PROCESSED_DATA_DIR
 
+
 def load_and_prepare_data(training_days, n_steps):
     """
     Load and prepare the test data.

@@ -13,8 +13,12 @@ from loguru import logger
 
 # Local application/library-specific imports
 from wolt_test_assignment.config import FIGURES_DIR, MODELS_DIR, SPLIT_DATE
-from wolt_test_assignment.modeling.utils import calculate_metrics, load_features_target, \
-load_and_prepare_data, load_and_prepare_data_lstm
+from wolt_test_assignment.modeling.utils import (
+    calculate_metrics,
+    load_features_target,
+    load_and_prepare_data,
+    load_and_prepare_data_lstm,
+)
 
 from wolt_test_assignment.plots import plot_prediction
 
@@ -27,6 +31,7 @@ absl.logging.set_verbosity(absl.logging.ERROR)
 # Suppress specific Python warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", message=r"Compiled the loaded model.*")
+
 
 def eval_lr_model(
     model_name: str = "model_LR_multioutput.joblib",
@@ -51,9 +56,8 @@ def eval_lr_model(
     """
 
     # Load and prepare data
-    x_test, test_target, scaler, feature_number =  \
-    load_and_prepare_data(training_days, n_steps)
-    
+    x_test, test_target, scaler, feature_number = load_and_prepare_data(training_days, n_steps)
+
     y_test_original = test_target[
         start_ind + training_days : start_ind + training_days + n_steps
     ].flatten()
@@ -110,17 +114,15 @@ def eval_lstm_model(
         - predicted_courier_number_original (ndarray): Predicted values.
         - start_date_str (str): Evaluation start date in 'YYYY-MM-DD' format.
     """
-   
-    ##############################3
-    # Load and prepare test features and target
-    x_test, test_target, scaler, feature_number = \
-    load_and_prepare_data_lstm(training_days, n_steps)
 
-    y_test_original = test_target[training_days : 
-                                  len(test_target) - n_steps + 1 ].flatten()
-    
+    # Load and prepare test features and target
+    x_test, test_target, scaler, feature_number = load_and_prepare_data_lstm(
+        training_days, n_steps
+    )
+
+    y_test_original = test_target[training_days : len(test_target) - n_steps + 1].flatten()
+
     y_test_original = np.array(y_test_original)
-    
 
     # Load the trained model
     model_path = MODELS_DIR / model_name
@@ -143,7 +145,7 @@ def eval_lstm_model(
 
     # Extract the original scale predictions for 'courier_partners_online'
     predicted_courier_number_original = predicted_original[:, 0]
-    
+
     # Convert SPLIT_DATE to a datetime object
     start_date = datetime.strptime(SPLIT_DATE, "%Y-%m-%d") + timedelta(
         days=training_days + start_ind
@@ -153,7 +155,10 @@ def eval_lstm_model(
 
     return y_test_original, predicted_courier_number_original, start_date_str
 
+
 app = typer.Typer()
+
+
 @app.command()
 def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
     """
@@ -185,9 +190,10 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
     r2_list = []
 
     for start_ind_ in range(0, number_intervals):
-        
-        y_test_original, predicted_courier_number_original, start_date = \
-        eval_lstm_model(model_path, training_days, n_steps, start_ind_)
+
+        y_test_original, predicted_courier_number_original, start_date = eval_lstm_model(
+            model_path, training_days, n_steps, start_ind_
+        )
 
         mae, mse, rmse, snr, r2 = calculate_metrics(
             y_test_original, predicted_courier_number_original
@@ -243,9 +249,10 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
     r2_list = []
 
     for start_ind in range(0, number_intervals):
-        
-        y_test_original, predicted_courier_number_original, start_date_str = \
-        eval_lr_model(model_path, training_days, n_steps, start_ind)
+
+        y_test_original, predicted_courier_number_original, start_date_str = eval_lr_model(
+            model_path, training_days, n_steps, start_ind
+        )
 
         mae, mse, rmse, snr, r2 = calculate_metrics(
             y_test_original, predicted_courier_number_original

@@ -14,8 +14,12 @@ from loguru import logger
 # Local application/library-specific imports
 from wolt_test_assignment.config import FIGURES_DIR, MODELS_DIR, SPLIT_DATE
 
-from wolt_test_assignment.modeling.utils import calculate_metrics, load_features_target, \
-load_and_prepare_data, load_and_prepare_data_lstm
+from wolt_test_assignment.modeling.utils import (
+    calculate_metrics,
+    load_features_target,
+    load_and_prepare_data,
+    load_and_prepare_data_lstm,
+)
 
 from wolt_test_assignment.plots import plot_prediction
 
@@ -28,6 +32,7 @@ absl.logging.set_verbosity(absl.logging.ERROR)
 # Suppress specific Python warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", message=r"Compiled the loaded model.*")
+
 
 def eval_lr_model(
     model_path: Path = MODELS_DIR / "model_LR.joblib",
@@ -51,22 +56,20 @@ def eval_lr_model(
             - transformed back to the original scale.
             - start_date_str (str): Start date of predictions in "YYYY-MM-DD" format.
     """
- 
+
     # Load and prepare test features
-    x_test, test_target, scaler, feature_number = \
-    load_and_prepare_data(training_days, n_steps)
+    x_test, test_target, scaler, feature_number = load_and_prepare_data(training_days, n_steps)
 
     # form test target
-    y_test_original = test_target[training_days : 
-                                  len(test_target) - n_steps + 1 ].flatten()
-    
+    y_test_original = test_target[training_days : len(test_target) - n_steps + 1].flatten()
+
     y_test_original = np.array(y_test_original)
 
     model = load(model_path)
     predicted_courier_number = model.predict(x_test)
 
     predicted_full = np.zeros((predicted_courier_number.shape[0], feature_number))
-    
+
     predicted_full[:, 0] = predicted_courier_number.flatten()
     predicted_original = scaler.inverse_transform(predicted_full)
     predicted_courier_number_original = predicted_original[:, 0]
@@ -78,6 +81,7 @@ def eval_lr_model(
     integer_predicted_courier_number = np.round(predicted_courier_number_original[training_days:])
 
     return y_test_original[training_days:], integer_predicted_courier_number, start_date_str
+
 
 def eval_lstm_model(
     model_path: Path = MODELS_DIR / "model_RNN_next_day.h5",
@@ -101,12 +105,12 @@ def eval_lstm_model(
     """
 
     # Load and prepare data
-    x_test, test_target, scaler, feature_number = \
-    load_and_prepare_data_lstm(training_days, n_steps)
+    x_test, test_target, scaler, feature_number = load_and_prepare_data_lstm(
+        training_days, n_steps
+    )
 
-    y_test_original = test_target[training_days : 
-                                  len(test_target) - n_steps + 1 ].flatten()
-    
+    y_test_original = test_target[training_days : len(test_target) - n_steps + 1].flatten()
+
     y_test_original = np.array(y_test_original)
 
     # Predict with model and inverse transform
@@ -124,12 +128,15 @@ def eval_lstm_model(
     start_date = split_date_dt + timedelta(training_days)
     start_date_str = start_date.strftime("%Y-%m-%d")
 
-    integer_predicted_courier_number = np.round(predicted_courier_number_original[training_days:])    
+    integer_predicted_courier_number = np.round(predicted_courier_number_original[training_days:])
 
     # Start date of predictions in "YYYY-MM-DD" format is needed for plotting
     return y_test_original[training_days:], integer_predicted_courier_number, start_date_str
 
+
 app = typer.Typer()
+
+
 @app.command()
 def main(training_days: int = 40, n_steps: int = 1):
     """
@@ -146,12 +153,12 @@ def main(training_days: int = 40, n_steps: int = 1):
     model_name = f"model_LSTM_featureDays_{training_days}_steps_{n_steps}.h5"
     model_path = MODELS_DIR / model_name
 
-    y_test_original, predicted_courier_number_original, start_date_str = \
-    eval_lstm_model(model_path, training_days, n_steps)
+    y_test_original, predicted_courier_number_original, start_date_str = eval_lstm_model(
+        model_path, training_days, n_steps
+    )
 
-    mae, _, rmse, snr, r2 = \
-    calculate_metrics(y_test_original, predicted_courier_number_original)
-    
+    mae, _, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
+
     logger.info(f"LSTM Metrics: MAE={mae:.2f}, R2={r2:.2f}, RMSE={rmse:.2f}, SNR={snr:.2f}")
 
     plot_prediction(
@@ -167,16 +174,16 @@ def main(training_days: int = 40, n_steps: int = 1):
     model_name = f"model_LR_featureDays_{training_days}_steps_{n_steps}.joblib"
     model_path = MODELS_DIR / model_name
 
-    y_test_original, predicted_courier_number_original, start_date_str = \
-    eval_lr_model(model_path, training_days, n_steps)
+    y_test_original, predicted_courier_number_original, start_date_str = eval_lr_model(
+        model_path, training_days, n_steps
+    )
 
     ###########################
     print("lr", y_test_original.shape, predicted_courier_number_original.shape)
     ###########################
 
-    mae, _, rmse, snr, r2 = \
-    calculate_metrics(y_test_original, predicted_courier_number_original)
-    
+    mae, _, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
+
     logger.info(f"LR Metrics: MAE={mae:.2f}, R2={r2:.2f}, RMSE={rmse:.2f}, SNR={snr:.2f}")
 
     plot_prediction(
