@@ -4,6 +4,37 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from wolt_test_assignment.config import PROCESSED_DATA_DIR
 
+def load_and_prepare_data(training_days, n_steps):
+    """
+    Load and prepare the test data.
+    """
+    test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
+
+    x_test = [
+        test_set_scaled[i - training_days : i].flatten()
+        for i in range(training_days, len(test_set_scaled) - n_steps + 1)
+    ]
+    x_test = np.array(x_test)
+    feature_number = training_set_scaled.shape[1]
+
+    return x_test, test_target, scaler, feature_number
+
+
+def load_and_prepare_data_lstm(training_days, n_steps):
+    """
+    Load and prepare the test data.
+    """
+    test_target, training_set_scaled, test_set_scaled, scaler = load_features_target()
+
+    x_test = [
+        test_set_scaled[i - training_days : i]
+        for i in range(training_days, len(test_set_scaled) - n_steps + 1)
+    ]
+    x_test = np.array(x_test)
+    feature_number = training_set_scaled.shape[1]
+
+    return x_test, test_target, scaler, feature_number
+
 
 def load_features_target():
     """

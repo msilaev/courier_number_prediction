@@ -5,7 +5,7 @@ import typer
 from loguru import logger
 
 from wolt_test_assignment.config import INTERIM_DATA_DIR, RAW_DATA_DIR
-
+#from config import INTERIM_DATA_DIR, RAW_DATA_DIR
 
 def load_data(file_path):
     """
