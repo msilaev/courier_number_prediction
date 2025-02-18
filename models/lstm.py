@@ -1,6 +1,7 @@
+from keras.layers import LSTM, Dense, Dropout
 from keras.models import Sequential
-from keras.layers import LSTM, Dropout, Dense
 from tensorflow.keras.regularizers import l2
+
 
 def create_regressor_large(input_shape, n_steps):
     """
@@ -39,7 +40,6 @@ def create_regressor_large(input_shape, n_steps):
     return regressor
 
 
-
 def create_regressor(input_shape, n_steps):
     """
     Create and compile a simplified LSTM model with fewer parameters and regularization.
@@ -61,6 +61,6 @@ def create_regressor(input_shape, n_steps):
     model.add(Dense(units=n_steps))
 
     # Compile the model
-    model.compile(optimizer='adam', loss='mean_squared_error')
+    model.compile(optimizer="adam", loss="mean_squared_error")
 
     return model

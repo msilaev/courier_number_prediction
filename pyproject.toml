@@ -23,9 +23,16 @@ include = '\.pyi?$'
 exclude = '''
 /(
     \.git
+  | \.mypy_cache
+  | \.tox
   | \.venv
+  | venv
+  | env
+  | \.env
+  | __pycache__
 )/
 '''
+
 
 [tool.ruff.lint.isort]
 known_first_party = ["wolt_test_assignment"]

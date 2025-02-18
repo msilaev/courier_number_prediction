@@ -1,6 +1,8 @@
 [MASTER]
 ignore=.venv
+ignore=venv
 ignore-patterns=.*\.venv.*
+ignore-patterns=.*\venv.*
 
 [MESSAGES CONTROL]
 disable=C0114,C0115,C0116
