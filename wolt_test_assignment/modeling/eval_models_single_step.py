@@ -157,9 +157,19 @@ def main(training_days: int = 40, n_steps: int = 1):
         model_path, training_days, n_steps
     )
 
-    mae, _, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
+    mae, mse, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
 
-    logger.info(f"LSTM Metrics: MAE={mae:.2f}, R2={r2:.2f}, RMSE={rmse:.2f}, SNR={snr:.2f}")
+    # logger.info(f"LSTM Metrics: MAE={mae:.2f}, R2={r2:.2f}, RMSE={rmse:.2f}, SNR={snr:.2f}")
+
+    metrics = (
+        f"MAE: {np.mean(mae):.2f}, "
+        f"MSE: {np.mean(mse):.2f}, "
+        f"RMSE: {np.mean(rmse):.2f}, "
+        f"R2: {np.mean(r2):.2f}, "
+        f"SNR: {np.mean(snr):.2f}"
+    )
+
+    logger.info("LSTM metrics " + metrics)
 
     plot_prediction(
         y_test_original,
@@ -178,13 +188,19 @@ def main(training_days: int = 40, n_steps: int = 1):
         model_path, training_days, n_steps
     )
 
-    ###########################
-    print("lr", y_test_original.shape, predicted_courier_number_original.shape)
-    ###########################
+    mae, mse, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
 
-    mae, _, rmse, snr, r2 = calculate_metrics(y_test_original, predicted_courier_number_original)
+    metrics = (
+        f"MAE: {np.mean(mae):.2f}, "
+        f"MSE: {np.mean(mse):.2f}, "
+        f"RMSE: {np.mean(rmse):.2f}, "
+        f"R2: {np.mean(r2):.2f}, "
+        f"SNR: {np.mean(snr):.2f}"
+    )
 
-    logger.info(f"LR Metrics: MAE={mae:.2f}, R2={r2:.2f}, RMSE={rmse:.2f}, SNR={snr:.2f}")
+    logger.info("LR metrics " + metrics)
+
+    # logger.info(f"LR Metrics: MAE={mae:.2f}, R2={r2:.2f}, RMSE={rmse:.2f}, SNR={snr:.2f}")
 
     plot_prediction(
         y_test_original,

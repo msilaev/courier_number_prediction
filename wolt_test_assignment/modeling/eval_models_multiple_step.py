@@ -227,12 +227,12 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
     metrics = (
         f"MAE: {np.mean(mae):.2f}, "
         f"MSE: {np.mean(mse):.2f}, "
+        f"RMSE: {np.mean(rmse):.2f}, "
         f"R2: {np.mean(r2):.2f}, "
         f"SNR: {np.mean(snr):.2f}"
     )
 
-    logger.info(metrics)
-
+    logger.info("LSTM metrics " + metrics)
     logger.info("testing the LSTM model done")
 
     #########################################
@@ -282,11 +282,12 @@ def main(training_days: int = 40, n_steps: int = 20, start_ind: int = 0):
     metrics = (
         f"MAE: {np.mean(mae):.2f}, "
         f"MSE: {np.mean(mse):.2f}, "
+        f"RMSE: {np.mean(rmse):.2f}, "
         f"R2: {np.mean(r2):.2f}, "
         f"SNR: {np.mean(snr):.2f}"
     )
 
-    logger.info(metrics)
+    logger.info("LR metrics " + metrics)
 
     logger.info("testing the Linear regression model done")
 
