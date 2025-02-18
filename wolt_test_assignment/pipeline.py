@@ -19,7 +19,7 @@ try:
         "Training models for next-day prediction",
     )
     run_command(
-        "python modeling/train.py --epochs 20 --batch-size 32 --training-days 40 --n-steps 20",
+        "python modeling/train.py --epochs 60 --batch-size 32 --training-days 40 --n-steps 20",
         "Training models for multiple-day prediction",
     )
     run_command(
